@@ -15,6 +15,17 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Extract Android project from ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          unzip -oq KodiChorusMobile_v1_Source.zip \
+            'app/*' 'settings.gradle' 'build.gradle' 'gradle.properties' -d .
+          test -f settings.gradle
+          test -f app/build.gradle
+          test -f app/src/main/AndroidManifest.xml
+          echo "Android project ready"
+
       - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
